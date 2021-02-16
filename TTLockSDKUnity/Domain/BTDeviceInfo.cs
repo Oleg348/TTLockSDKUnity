@@ -9,6 +9,7 @@ namespace OrbitaTech.TTLockUnity
     public class BTDeviceInfo : JavaProxy
     {
         private string _mac;
+        private string _name;
         private bool? _isInDfuMode;
         private bool? _isRemoteControllable;
         private sbyte? _protocolType;
@@ -22,15 +23,19 @@ namespace OrbitaTech.TTLockUnity
         /// .ctor
         /// </summary>
         /// <param name="mac"></param>
+        /// <param name="name"></param>
         /// <param name="isInDfuMode"></param>
         /// <param name="isRemoteControllable"></param>
         /// <param name="protocolType"></param>
         /// <param name="protocolVersion"></param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="mac"/> is null
+        /// -or-
+        /// <paramref name="name"/> is null
         /// </exception>
         public BTDeviceInfo(
             string mac,
+            string name,
             bool isInDfuMode,
             bool isRemoteControllable,
             sbyte protocolType,
@@ -38,6 +43,7 @@ namespace OrbitaTech.TTLockUnity
         )
         {
             _mac = mac.IsNotNull(nameof(mac));
+            _name = name.IsNotNull(nameof(name));
             _isInDfuMode = isInDfuMode;
             _isRemoteControllable = isRemoteControllable;
             _protocolType = protocolType;
@@ -45,6 +51,8 @@ namespace OrbitaTech.TTLockUnity
         }
 
         public string Mac => _mac ?? (_mac = Proxy.Call<string>("getAddress"));
+
+        public string Name => _name ?? (_name = Proxy.Call<string>("getName"));
 
         /// <summary>
         /// Whether device is in firmware update mode.
